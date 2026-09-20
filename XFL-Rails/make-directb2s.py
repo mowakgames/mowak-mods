@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Arma el Rails.directb2s del gabinete: el backglass es RailsInGameBackglass.png (16:9, a
-pantalla completa en la pantalla 2) y las luces que quedan se ordenan en el espacio libre de
-arriba a la izquierda: el puntaje, GAME OVER, TILT y los números de bola. Las demás luces eran
-recortes del arte original (las letras R-A-I-L-S, el cruce, la barrera) y se quitan.
+"""Build the Rails backglass: the artwork is RailsInGameBackglass.png (16:9, full screen on the
+second monitor) and the lights that stay are laid out in the free space at the top left: the
+score reel, GAME OVER, TILT and the ball-in-play numbers. The rest of the lights were pieces cut
+from the original artwork (the R-A-I-L-S letters, the crossing, the gate), so they are dropped.
 
-    python make-directb2s.py <Rails.directb2s original> RailsInGameBackglass.png Rails.directb2s preview.png
+    python make-directb2s.py <original Rails.directb2s> RailsInGameBackglass.png Rails.mod.directb2s preview.png
 
-La vista previa muestra todas las luces encendidas. Requiere Pillow.
+The preview shows every light lit. Requires Pillow.
 """
 import base64, io, sys
 import xml.etree.ElementTree as ET
@@ -16,13 +16,14 @@ SRC, ART, OUT, PREVIEW = sys.argv[1:5]
 tree = ET.parse(SRC)
 root = tree.getroot()
 
-# Luces que se quedan (las que indican algo) y dónde van en el arte nuevo: x, y, ancho, alto.
+# Lights that stay (the ones that indicate something) and where they go in the new artwork:
+# x, y, width, height.
 BALL_W, BALL_H = 92, 87
 KEEP = {
     "25": (40, 225, 352, 104),   # GAME OVER
     "26": (412, 225, 248, 73),   # TILT
 }
-for i, bid in enumerate(("20", "21", "22", "23", "24")):  # bola 1..5
+for i, bid in enumerate(("20", "21", "22", "23", "24")):  # ball 1..5
     KEEP[bid] = (40 + i * 104, 345, BALL_W, BALL_H)
 SCORE = (40, 40, 620, 158)
 
@@ -45,7 +46,7 @@ buf = io.BytesIO(); thumb.save(buf, "PNG")
 root.find("Images/ThumbnailImage").set("Value", base64.b64encode(buf.getvalue()).decode())
 tree.write(OUT, encoding="utf-8", xml_declaration=True)
 
-# Vista previa: todas las luces encendidas y el puntaje con el primer rodillo.
+# Preview: every light lit and the score showing the first reel digit.
 prev = art.convert("RGBA")
 for b in illum:
     im = Image.open(io.BytesIO(base64.b64decode(b.get("Image")))).convert("RGBA")
@@ -58,4 +59,4 @@ dw = w // 6
 for i in range(6):
     prev.alpha_composite(digit.resize((dw - 6, h)), (x + i * dw, y))
 prev.convert("RGB").save(PREVIEW)
-print("luces:", len(illum), "->", OUT)
+print("lights:", len(illum), "->", OUT)

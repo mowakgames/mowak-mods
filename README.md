@@ -13,7 +13,7 @@ All credit for the tables, their rules and their original artwork goes to him:
 |---|---|
 | Rails | [VPForums](https://www.vpforums.org/index.php?showtopic=54912) |
 | Barnstorming | [VPForums](https://www.vpforums.org/index.php?showtopic=53408) |
-| Route 66 | VPForums |
+| Route 66 | [VPForums](https://www.vpforums.org/index.php?showtopic=54117) |
 
 If you are XFL and want any of this taken down, open an issue and it's gone.
 
@@ -27,6 +27,7 @@ One folder per table, `XFL-<table>/`:
 | `<Table>.mod.directb2s` | Its backglass, for the second screen. **It must share the table's file name**: VPX looks it up that way |
 | Loose images (`<name>.png`) | Our artwork. Each file is named after the image **inside** the `.vpx` that it replaces |
 | `original/` | The same images as shipped in the original table, to use as a starting point, plus `directb2s-backglass.png`, the original backglass |
+| `<Table>.mod.backglass.png` | The artwork behind our backglass (Rails uses `RailsInGameBackglass.png`) |
 | `directb2s-layout.json` | Where each indicator goes (score reels, ball number, TILT…) over our backglass |
 | `make-directb2s.py` | Rails only: builds its `.directb2s` (that table's layout lives in the script) |
 
@@ -56,11 +57,10 @@ vpxtool audit Rails.mod.vpx                # compare against the audit of the or
 Keep the image names exactly as they are inside the `.vpx`, including an uppercase extension when
 that's how the table has it (`barnstormingplastics.PNG`).
 
-The backglass is built with the tools in our launcher repo
-([mowak-launcher](https://github.com/mowakgames/mowak-launcher), `tools/`):
+The backglass is built with `tools/restyle-directb2s.py` (Python 3 with Pillow):
 
 ```bash
-python restyle-directb2s.py XFL-Route66/directb2s-layout.json \
+python tools/restyle-directb2s.py XFL-Route66/directb2s-layout.json \
     Route66.original.directb2s XFL-Route66/Route66.mod.directb2s preview.png
 ```
 
