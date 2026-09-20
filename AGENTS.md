@@ -14,14 +14,16 @@ Repos relacionados (carpetas hermanas en `D:\Git\Mowak`):
 
 - Habla con el usuario en **español de Chile, tuteo neutro, nunca voseo** ("prueba", "dime",
   "fíjate"; nunca "probá", "decime").
-- README y mensajes de commit en ese mismo español.
+- Mensajes de commit en ese mismo español, pero **el `README.md` va en inglés**: el repo es
+  público y lo van a leer en la comunidad de Visual Pinball (lo pidió el usuario).
 
 ## Git
 
 - Trabaja directo en `main`. No crees ramas si el usuario no lo pide.
 - Haz commit y push solo cuando el usuario lo pida.
-- **Repo privado.** Las mesas son de XFL, que dio permiso para modificarlas, no para
-  redistribuirlas. No publiques estos archivos ni los subas a otro lado.
+- **Repo público.** Las mesas son de XFL, que da permiso para modificarlas ("Permission to MOD:
+  Yes, without approval"), y los mods se publican con ese permiso y con los créditos a él en el
+  README. Mantén los créditos en cualquier cosa nueva que agregues.
 
 ## Reglas que el usuario pidió
 

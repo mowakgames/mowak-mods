@@ -1,70 +1,85 @@
 # mowak-mods
 
-Mods de mesas de **Visual Pinball X** para el gabinete de pinball de Mowak: el arte que hicimos
-nosotros, las imágenes originales de base y la mesa ya armada, lista para copiar al gabinete.
+Visual Pinball X table mods made by **Mowak Games** for our pinball cabinet: our artwork, the
+original images we started from, and the rebuilt table, ready to drop into a cabinet.
 
-Las mesas originales son de **XFL** (XFL4Ever en VPForums), que nos dio permiso para modificarlas.
-Su ficha dice "Permission to MOD?: Yes, without approval". **Este repo es privado**: el permiso es
-para modificarlas, no para redistribuirlas.
+## Credits and permission
 
-Repos relacionados (carpetas hermanas en `D:\Git\Mowak`):
+The original tables are by **XFL** (XFL4Ever on VPForums). His release pages state
+*"Permission to MOD?: Yes, without approval"*, and these mods are shared under that permission.
+All credit for the tables, their rules and their original artwork goes to him:
 
-| Repo | Qué es |
+| Table | Original release |
 |---|---|
-| `mowak-launcher` (carpeta `mowak-launcher-native`) | El launcher del gabinete. Sus `tools/` arman los `.directb2s` y las imágenes del menú |
-| `mowak-bazzite` | Configuración del gabinete, incluida la de Visual Pinball X |
+| Rails | [VPForums](https://www.vpforums.org/index.php?showtopic=54912) |
+| Barnstorming | [VPForums](https://www.vpforums.org/index.php?showtopic=53408) |
+| Route 66 | VPForums |
 
-## Qué hay en cada carpeta
+If you are XFL and want any of this taken down, open an issue and it's gone.
 
-Una carpeta por mesa, `XFL-<mesa>/`:
+## What's in each folder
 
-| Archivo | Qué es |
+One folder per table, `XFL-<table>/`:
+
+| File | What it is |
 |---|---|
-| `<Mesa>.mod.vpx` | La mesa armada, con nuestro arte. Es la que corre en el gabinete |
-| `<Mesa>.mod.directb2s` | Su backglass, el de la pantalla 2. **Tiene que llamarse igual que la mesa**: VPX lo busca por el nombre del archivo |
-| Imágenes sueltas (`<nombre>.png`) | Nuestro arte. El nombre es el de la imagen **dentro** del `.vpx` que reemplaza |
-| `original/` | Las mismas imágenes de la mesa original, de base para editar, y `directb2s-backglass.png`, el backglass original |
-| `directb2s-layout.json` | Dónde va cada marcador (puntaje, bolas, TILT…) sobre nuestro backglass |
-| `make-directb2s.py` | Solo en Rails: arma su `.directb2s` (el layout quedó escrito en el script) |
+| `<Table>.mod.vpx` | The rebuilt table, with our artwork. This is what runs on the cabinet |
+| `<Table>.mod.directb2s` | Its backglass, for the second screen. **It must share the table's file name**: VPX looks it up that way |
+| Loose images (`<name>.png`) | Our artwork. Each file is named after the image **inside** the `.vpx` that it replaces |
+| `original/` | The same images as shipped in the original table, to use as a starting point, plus `directb2s-backglass.png`, the original backglass |
+| `directb2s-layout.json` | Where each indicator goes (score reels, ball number, TILT…) over our backglass |
+| `make-directb2s.py` | Rails only: builds its `.directb2s` (that table's layout lives in the script) |
 
-## Mesas
+## The mods
 
-| Mesa | Qué le cambiamos |
+| Table | What we changed |
 |---|---|
-| `XFL-Rails` | Playfield, plásticos, el fondo de la vista escritorio y el backglass |
-| `XFL-Barnstorming` | Playfield y plásticos; el backglass usa el arte del menú |
-| `XFL-Route66` | Playfield y plásticos; el backglass usa el arte del menú |
+| `XFL-Rails` | Playfield, plastics, desktop backdrop and backglass |
+| `XFL-Barnstorming` | Playfield and plastics; the backglass uses our menu artwork |
+| `XFL-Route66` | Playfield and plastics; the backglass uses our menu artwork |
 
-## Cómo se arma una mesa
+Our tables are named `<Table>.mod.vpx` and the untouched ones `<Table>.original.vpx`, so there is
+no way to mix them up.
 
-Se usa [vpxtool](https://github.com/francisdb/vpxtool) (se probó con la v0.34.1). Un `.vpx` es un
-archivo compuesto con una firma que VPX revisa, así que no se edita con un zip:
+## Rebuilding a table
+
+A `.vpx` is a compound file with a signature that VPX checks, so it can't be edited like a zip.
+We use [vpxtool](https://github.com/francisdb/vpxtool) (tested with v0.34.1):
 
 ```bash
-vpxtool extract Rails.vpx                  # crea la carpeta Rails/ (imágenes en Rails/images/)
-cp XFL-Rails/*.png Rails/images/           # nuestras imágenes, con el nombre de las originales
-vpxtool assemble Rails Rails.mod.vpx       # vuelve a armar la mesa, con la firma
-vpxtool audit Rails.mod.vpx                # compara el resultado con el audit de la original
+vpxtool extract Rails.vpx                  # creates Rails/ (images under Rails/images/)
+cp XFL-Rails/*.png Rails/images/           # our images, named after the originals
+vpxtool assemble Rails Rails.mod.vpx       # rebuilds the table, signature included
+vpxtool audit Rails.mod.vpx                # compare against the audit of the original table
 ```
 
-El backglass se arma con las herramientas del repo del launcher:
+Keep the image names exactly as they are inside the `.vpx`, including an uppercase extension when
+that's how the table has it (`barnstormingplastics.PNG`).
+
+The backglass is built with the tools in our launcher repo
+([mowak-launcher](https://github.com/mowakgames/mowak-launcher), `tools/`):
 
 ```bash
-python ../mowak-launcher-native/tools/restyle-directb2s.py XFL-Route66/directb2s-layout.json \
+python restyle-directb2s.py XFL-Route66/directb2s-layout.json \
     Route66.original.directb2s XFL-Route66/Route66.mod.directb2s preview.png
 ```
 
-## En el gabinete
+`restyle-directb2s.py` swaps the backglass image and moves the indicators listed in the layout;
+anything not in the layout is dropped (that's how the light overlays cut from the original
+artwork are removed). In a `.directb2s`, `LocX`, `LocY`, `Width` and `Height` are pixels of the
+backglass image.
 
-Las mesas van en `~/Pinball/vpx-tables/<mesa>/`, cada una con su mod y su original:
+## Installing on a cabinet
+
+Tables live in `~/Pinball/vpx-tables/<table>/`, each with the mod and the original side by side:
 
 ```
 Rails/Rails.mod.vpx          Rails/Rails.mod.directb2s
 Rails/Rails.original.vpx     Rails/Rails.original.directb2s
 ```
 
-El launcher las abre desde su `games.json` (`-play <mesa>.mod.vpx`). **Cierra VPX antes de
-reemplazar una mesa**: si está abierta, queda leyendo basura.
+Our launcher opens them with `VPinballX_BGFX -play <table>.mod.vpx`. **Close VPX before replacing
+a table**: swapping the file while it's open leaves the game reading garbage.
 
-Las cartas y los backglass que se ven en el menú del launcher **no** están acá: van en
-`cabinet/images/` del repo del launcher.
+The cover art and backglass images shown in the launcher menu are not here: they live in
+`cabinet/images/` of the launcher repo.
