@@ -53,7 +53,7 @@ Related repos (sibling folders in `D:\Git\Mowak`):
 
 | | |
 |---|---|
-| Host / user | `192.168.31.150`, `mowak_games` |
-| SSH from the Windows PC | `ssh -i ~/.ssh/id_ed25519_bazzite mowak_games@192.168.31.150` |
+| Host / user | `mowak-pinball`, `mowak_games`. Its IP changes (`192.168.31.150`, `.147` or another): probe and check `hostname` before copying anything |
+| SSH from the Windows PC | `ssh -i ~/.ssh/id_ed25519_bazzite mowak_games@<ip>` |
 | Tables | `~/Pinball/vpx-tables/<table>/` |
 | VPX | `~/Pinball/vpinball/VPinballX_BGFX` (configured in the `mowak-bazzite` repo) |
