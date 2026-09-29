@@ -39,6 +39,12 @@ One folder per table, `XFL-<table>/`:
 | `XFL-Barnstorming` | Playfield and plastics; the backglass uses our menu artwork |
 | `XFL-Route66` | Playfield and plastics; the backglass uses our menu artwork |
 
+All three also roll our own ball, the same one as in our vertical mini games: `ball/MowakBall.png`
+is a photo of a chrome sphere, used as the ball image with spherical mapping, and
+`ball/MowakBallScratches.png` goes on top as the ball's front decal. Unlike the artwork above,
+these are new images added to each table (`MowakBall`, `MowakBallScratches`), not replacements.
+The ball's reflection on the playfield is VPX's own (turned on in Route 66, where it was off).
+
 Our tables are named `<Table>.mod.vpx` and the untouched ones `<Table>.original.vpx`, so there is
 no way to mix them up.
 
@@ -50,6 +56,7 @@ We use [vpxtool](https://github.com/francisdb/vpxtool) (tested with v0.34.1):
 ```bash
 vpxtool extract Rails.vpx                  # creates Rails/ (images under Rails/images/)
 cp XFL-Rails/*.png Rails/images/           # our images, named after the originals
+python tools/add-mowak-ball.py Rails       # our ball: adds its images and sets the table's ball
 vpxtool assemble Rails Rails.mod.vpx       # rebuilds the table, signature included
 vpxtool audit Rails.mod.vpx                # compare against the audit of the original table
 ```

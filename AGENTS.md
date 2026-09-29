@@ -42,6 +42,9 @@ Related repos (sibling folders in `D:\Git\Mowak`):
   against the original one: they must match.
 - Mod images use the **exact** name of the image inside the `.vpx`, including an uppercase
   extension where the table has one (`barnstormingplastics.PNG`).
+- Every mod rolls our own ball (from `mowak-vertical-games`): run `tools/add-mowak-ball.py` on the
+  extracted table before `assemble`. It adds `ball/*.png` as new images, the only exception to the
+  exact-name rule above.
 - The `.directb2s` is built with `tools/restyle-directb2s.py` from the launcher repo plus the
   table's `directb2s-layout.json` (Rails has its own `make-directb2s.py`).
 - In a `.directb2s`, `LocX`, `LocY`, `Width` and `Height` are pixels of the backglass image.
