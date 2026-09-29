@@ -61,6 +61,9 @@ vpxtool assemble Rails Rails.mod.vpx       # rebuilds the table, signature inclu
 vpxtool audit Rails.mod.vpx                # compare against the audit of the original table
 ```
 
+Before `assemble`, also set `table_blurb` in `Rails/info.json` to
+`"XFL original, modded by Mowak Games"`, so the table's info credits both.
+
 Keep the image names exactly as they are inside the `.vpx`, including an uppercase extension when
 that's how the table has it (`barnstormingplastics.PNG`).
 
